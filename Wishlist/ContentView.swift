@@ -13,11 +13,13 @@ struct ContentView: View {
 	@Environment(\.modelContext) private var modelContext
 	@Query private var wishes: [Wish]
 	
-    var body: some View {
+	var body: some View {
 		NavigationStack {
 			List{
 				ForEach(wishes) { wish in
 					Text(wish.title)
+						.font(.title.weight(.light))
+						.padding(.vertical, 2)
 				}
 			}
 			.navigationTitle("Wishlist")
@@ -30,10 +32,26 @@ struct ContentView: View {
 				}
 			}
 		}
-    }
+	}
 }
 
-#Preview {
-    ContentView()
+#Preview("List with Sample Data") {
+	let preview = Preview()
+	
+	preview.addExamples(
+		[
+			Wish(title: "Master SwiftData"),
+			Wish(title: "Buy a new iPhone"),
+			Wish(title: "Practice latin dances"),
+			Wish(title: "Travel to Europe"),
+			Wish(title: "Make a positive impact")
+		]
+	)
+	return ContentView()
+		.modelContainer(preview.modelContainer)
+}
+
+#Preview("Empty List") {
+	ContentView()
 		.modelContainer(for: Wish.self, inMemory: true)
 }
